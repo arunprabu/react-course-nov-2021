@@ -1,0 +1,49 @@
+Routing 
+----
+
+  Step 0:
+  --
+    npm i react-router-dom 
+
+  step 1: 
+  ---
+    identify the URLs and have them in menus 
+      Home    - http://localhost:3000/
+      Posts   - http://localhost:3000/posts
+      About   - http://localhost:3000/about 
+      Contact - http://localhost:3000/contact
+
+  Step 2: 
+  ---
+    Let's create 4 components 
+      Home.js 
+      Posts.js 
+      About.js 
+      Contact.js 
+
+  Step 3: 
+  ---
+    3.1 - Have the entire app under <BrowserRouter>
+    3.2 - Config the routes in App.js 
+          Refer latest react-router-dom's  doc https://reactrouter.com/docs/en/v6/upgrading/v5
+
+        
+    ------
+
+  Step 4: 
+  ---
+    Check the app. URL will change. Comp is loaded in between header and footer 
+    But Pages will reload. Let's fix it. 
+
+    Replace all <a href> tags with <Link to> from 'react-router-dom'. 
+
+It is over. We have an SPA!.
+
+
+
+
+==
+PostForm - http://localhost:3000/posts/ 
+PostList - http://localhost:3000/posts/ 
+
+Post   - http://localhost:3000/posts/1
