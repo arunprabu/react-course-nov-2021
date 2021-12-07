@@ -13,7 +13,7 @@ Step 1:
 
 Step 2: 
   Exec createStore() method and save it in a variable 
-  const store = createStore(); //this needs a special argument called 'reducer'
+  const store = createStore(); //this needs a special param called 'reducer'
 
 
 Step 3: [Refer reducers/postReducer.js]  Setup Reducer for the store
@@ -627,6 +627,7 @@ Step 33: Finally, work with the switch case in postReducer.js
       return action.post;
 
 That's all. CRUD Operation is over!
+
 
 Note: Add Toastr (react-redux-toastr )
 
