@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 // Step 10. We need to dispatch an action with type ADD_POST from handleCreatePost method.
 // In order to get dispatch method, we need to use react-redux 
 import { connect } from 'react-redux';
-import { ADD_POST } from '../actions/types';
+import { createPost } from '../services/postService';
+
+import { ADD_POST } from "../actions/types";
 
 class PostForm extends Component {
 
@@ -19,14 +21,17 @@ class PostForm extends Component {
       body: this.getContent.value
     } 
     console.log(blogPostData);
+    console.log(this.props); // will have dispatch method
 
-  // Step 11: It is time to dispatch actions from form submission logic 
-  // connect() helps props have dispatch method
-  // using it we can dispatch action with type and data (payload)
-  this.props.dispatch({ 
-                        type: ADD_POST,
-                        payload: blogPostData
-                      });
+    this.props.dispatch( createPost(blogPostData) ); // this is the service method
+
+    // Step 11: It is time to dispatch actions from form submission logic 
+    // connect() helps props have dispatch method
+    // using it we can dispatch action with type and data (payload)
+    // this.props.dispatch({ 
+    //                     type: ADD_POST,
+    //                     payload: blogPostData
+    //                   });
 
   }
 

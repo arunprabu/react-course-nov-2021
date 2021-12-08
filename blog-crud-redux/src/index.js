@@ -7,7 +7,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 // Step 1: Setup the Redux store 
-import { createStore } from 'redux'; // npm i redux
+import { createStore, applyMiddleware } from 'redux'; // npm i redux
+
+// Step 14: Let's apply middleware
+import thunk from 'redux-thunk';  //npm i redux-thunk - use redux-thunk middleware for async actions
+import logger from 'redux-logger'; // npm i redux-logger - logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions 
 
 // Step 5: let’s import the combinedReducer / rootReducer
 // and pass it to the store as an argument.
@@ -22,7 +26,7 @@ import { Provider } from 'react-redux';
   //Provider should be imported from react-redux 
 
 // Step 2: Exec createStore() method and save it in a variable 
-const store = createStore(rootReducer); //this needs a special param called 'reducer' and an optional enhancer
+const store = createStore(rootReducer, applyMiddleware(thunk, logger)); //this needs a special param called 'reducer' and an optional enhancer
 // Now, After Step 5, store would have dispatch, subscribe properties and app wide data too
 
 ReactDOM.render(

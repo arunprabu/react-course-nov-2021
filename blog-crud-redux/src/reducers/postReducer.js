@@ -24,13 +24,20 @@ const postReducer = (state = [], action) => {
   switch(action.type){
     case ADD_POST: 
       console.log('Before updating the store');
-      return state.concat(action.payload);
+      let addPostState = [
+        ...state, // spread operator
+        action.payload
+      ];
+      return addPostState;
+
+    case GET_POSTS:
+      return action.payload;
+      
     default: 
       return state;
   }
 
-  // reducer should mandatorily return a state. 
- 
+  // reducer should mandatorily return a state.  
 }
 export default postReducer;
 
