@@ -1,7 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { deletePost, editPost, getPostById } from '../services/postService';
+
+const withRouter = (WrapperComponent) => {
+  return (props) => {
+    const location = useLocation();
+    const navigation = useNavigate();
+    const params = useParams();
+
+    return(
+      <WrapperComponent 
+        {...props}
+        navigation={navigation}
+        location={location}
+        params={params}
+      />
+    )
+  }
+}
 
 class PostDetails extends Component {
 
@@ -10,7 +27,7 @@ class PostDetails extends Component {
     // Read URL Param in React
     // console.log(this.props.params);
 
-    this.props.onGetPostById(1); // TODO for Arun - Fix URL Param error
+    this.props.onGetPostById(this.props.postId); // TODO for Arun - Fixed
   }
 
   handleDeletePost = () => {
@@ -102,12 +119,14 @@ class PostDetails extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log(state.postList);
+const mapStateToProps = (state, props) => { 
+  console.log(state.postList); 
+  console.log(props); // props would come with params, navigation, location from HOC
   return {
     // syntax 
     // propName: what property we want from store 
-    post: state.posts.post // this is an obj
+    post: state.posts.post, // this is an obj
+    postId: props.params.postId
   }
 }
 
@@ -120,4 +139,6 @@ const mapDispatchToProps = (dispatch) => { // dispatch will come from store
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);
+// Needed for URL Params to be accessible inside class comp from react-router-dom v6
+// Refer here: https://stackoverflow.com/questions/45898789/react-router-pass-param-to-component/48572168#48572168
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostDetails));
