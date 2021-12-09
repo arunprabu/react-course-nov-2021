@@ -422,12 +422,35 @@ Step 21:
 Step 22: 
   In PostDetails.js, in its life cycle hook 
 
-  componentDidMount(){
-    // Step 22.1 read url parameter in react -- it is available in props
-    console.log(this.props.match.params.id);
-    // Step 22.2 passing the url param to getPostById() method
-    this.props.dispatch(getPostById(this.props.match.params.id)); 
+  Have the following HOC because props will not have 
+  url params in class comp after react-router-dom v6.
+
+  const withRouter = (WrapperComponent) => {
+    return (props) => {
+      const location = useLocation();
+      const navigation = useNavigate();
+      const params = useParams();
+
+      return(
+        <WrapperComponent 
+          {...props}
+          navigation={navigation}
+          location={location}
+          params={params}
+        />
+      )
+    }
   }
+
+  class PostDetails extends Component {
+
+    componentDidMount(){
+      // Let's hit the service method to get one post details
+      // Read URL Param in React
+      console.log(this.props.params.postId); // this is url param -- sent from mapPropsToDispatch 
+      this.props.dispatch(getPostById(this.props.params.postId)); 
+    }
+
 
 ====
 Step 23: 
@@ -664,7 +687,7 @@ Understanding Immutatability in Redux
 --
 https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
 Solutions 
-1. Use ES2015 or else
+1. Use ES2015 or else 
 2. Use Immer JS https://immerjs.github.io/immer/docs/introduction
    https://immerjs.github.io/immer/docs/example-reducer
 
