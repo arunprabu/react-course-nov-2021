@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { deletePost, getPostById } from '../services/postService';
+import { deletePost, editPost, getPostById } from '../services/postService';
 
 class PostDetails extends Component {
 
@@ -10,11 +10,26 @@ class PostDetails extends Component {
     // Read URL Param in React
     // console.log(this.props.params);
 
-    this.props.dispatch( getPostById( 1 )); // TODO for ARUN
+    this.props.onGetPostById(1); // TODO for Arun - Fix URL Param error
   }
 
   handleDeletePost = () => {
-    this.props.dispatch(deletePost(this.props.post.id));
+    this.props.onDelete(this.props.post.id);
+  }
+
+  handleEditPost = (event) => {
+    event.preventDefault();
+
+    const data = {
+      id: this.props.post.id,
+      title: this.getTitle.value,
+      body: this.getBody.value 
+    }
+    console.log(data); // submittable form data for Update
+    
+    this.props.onEdit(data);
+    this.getTitle.value = '';
+    this.getBody.value = '';
   }
 
   render() {
@@ -56,14 +71,18 @@ class PostDetails extends Component {
                         data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                      <form>
+                      <form onSubmit={this.handleEditPost}>
                         <input required type="text"
                           placeholder="Enter Post Title"
                           className='form-control'
+                          defaultValue={this.props.post.title} 
+                          ref={(inputEl) => this.getTitle = inputEl} 
                         /><br />
                         <textarea required rows="5" cols="28"
                           placeholder="Enter Post"
                           className='form-control'
+                          defaultValue={this.props.post.body} 
+                          ref={(inputEl) => this.getBody = inputEl} 
                         /><br />
                         <button className='btn btn-primary' type='submit'>Save Changes</button>
                       </form>
@@ -88,8 +107,17 @@ const mapStateToProps = (state) => {
   return {
     // syntax 
     // propName: what property we want from store 
-    post: state.postList // this is an obj
+    post: state.posts.post // this is an obj
   }
 }
 
-export default connect(mapStateToProps)(PostDetails);
+// we can create custom event handlers -- they will be available in props
+const mapDispatchToProps = (dispatch) => { // dispatch will come from store
+  return {
+    onGetPostById: (postId) => dispatch( getPostById( postId )),
+    onEdit: (data) => dispatch(editPost(data)),
+    onDelete: (id) => dispatch(deletePost(id))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);

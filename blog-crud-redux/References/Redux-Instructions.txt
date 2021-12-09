@@ -566,7 +566,7 @@ Step 30:
             </button>
           </div>
           <div className="modal-body">
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleEditPost}>
               <input required type="text"
                 placeholder="Enter Post Title"
                 className='form-control' 
@@ -586,9 +586,9 @@ Step 30:
   </div>
 
 Step 31: 
-  Define handleSubmit function there and capture the form data,
+  Define handleEditPost function there and capture the form data,
   then dispatch ac action to editPost 
-    handleSubmit = (e) => {
+    handleEditPost = (e) => {
       e.preventDefault();
       const title = this.getTitle.value;
       const body = this.getContent.value;

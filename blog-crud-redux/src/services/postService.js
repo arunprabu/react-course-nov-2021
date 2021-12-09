@@ -15,7 +15,7 @@ What's the REST API client?
 */ 
 
 import axios from 'axios';
-import { ADD_POST, DELETE_POST, GET_POSTS, GET_POST_BY_ID } from "../actions/types";
+import { ADD_POST, DELETE_POST, GET_POSTS, GET_POST_BY_ID, EDIT_POST } from "../actions/types";
 
 const POSTS_API_URL = 'https://jsonplaceholder.typicode.com/posts';
 
@@ -126,3 +126,28 @@ export const deletePost = (id) => {
   }
 
 }
+
+export const editPost = (formData) => {
+
+  console.log(formData);
+
+  return (dispatch) => {  
+
+    return axios.put(POSTS_API_URL+ '/' + formData.id, formData)
+      .then( (res) => { 
+        console.log(res);
+        dispatch( {
+          type: EDIT_POST,
+          payload: res.data
+        });
+      })
+      .catch( (err) => { 
+        console.log(err);
+      })
+      .finally( () => { 
+        console.log('It is over');
+      });
+  }
+
+}
+

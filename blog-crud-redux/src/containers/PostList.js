@@ -61,7 +61,7 @@ const mapStateToProps = (state) => {
   console.log(state); // entire store 
   // We will convert the state into props 
   return {
-    postList: state.postList // postList from store is now converted into props
+    postList: state.posts.postList // postList from store is now converted into props
   }
 }
 

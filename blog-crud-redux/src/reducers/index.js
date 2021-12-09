@@ -9,7 +9,7 @@ import postReducer from './postReducer';
 
 // Step 4.3 combine all reducers into one big object for store
 const rootReducer = combineReducers( {
-  postList: postReducer
+  posts: postReducer
 });
 
 // Step 4.4 export the rootReducer so that it can be used to createStore

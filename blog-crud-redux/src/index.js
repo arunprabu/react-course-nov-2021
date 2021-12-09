@@ -25,8 +25,12 @@ import { Provider } from 'react-redux';
   //that needs to access it without the need to pass props.
   //Provider should be imported from react-redux 
 
+// Setup Redux Devtools Extension for Debugging
+// First Install Chrome Extn
+import { composeWithDevTools } from 'redux-devtools-extension'; // npm i redux-devtools-extension
+
 // Step 2: Exec createStore() method and save it in a variable 
-const store = createStore(rootReducer, applyMiddleware(thunk, logger)); //this needs a special param called 'reducer' and an optional enhancer
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, logger))); //this needs a special param called 'reducer' and an optional enhancer
 // Now, After Step 5, store would have dispatch, subscribe properties and app wide data too
 
 ReactDOM.render(
