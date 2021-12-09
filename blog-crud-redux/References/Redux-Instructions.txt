@@ -450,6 +450,14 @@ Step 22:
       console.log(this.props.params.postId); // this is url param -- sent from mapPropsToDispatch 
       this.props.dispatch(getPostById(this.props.params.postId)); 
     }
+    ....
+    ...
+    // render will come here 
+
+  }
+
+  And When you export do the following 
+  export default withRouter(connect(mapStateToProps)(PostDetails));
 
 
 ====
