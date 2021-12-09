@@ -19,7 +19,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/posts" element={<Posts />} />
-            <Route path="/posts/1" element={<PostDetails />} />
+            {/* The following URL has URL param configured. URL param is postId */}
+            <Route path="/posts/:postId" element={<PostDetails />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             {/* TODO: Work on handling 404 */}

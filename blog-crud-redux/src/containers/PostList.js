@@ -19,19 +19,23 @@ class PostList extends Component {
     let postList = this.props.postList;
     console.log(postList);
 
-    let posts = postList.map( (post, index) => {
-      return(
-        <div className="list-group-item list-group-item-action text-start" key={index}>
-          <div className="d-flex w-100 justify-content-between">
-            <h5 className="mb-1">
-              <Link to={`/posts/1`}>{post.title}</Link>
-            </h5>
-            <small>Post Id: {post.id}</small>
+    let posts;
+    if(postList && postList.length > 0){
+       posts = postList.map( (post, index) => {
+        return(
+          <div className="list-group-item list-group-item-action text-start" key={index}>
+            <div className="d-flex w-100 justify-content-between">
+              <h5 className="mb-1">
+                <Link to={`/posts/${post.id}`}>{post.title}</Link>
+              </h5>
+              <small>Post Id: {post.id}</small>
+            </div>
+            <p className="mb-1 text-left">{post.body}</p>
           </div>
-          <p className="mb-1 text-left">{post.body}</p>
-        </div>
-      )
-    })
+        )
+      });
+    }
+    
     
     return (
       <div>

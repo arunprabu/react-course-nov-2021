@@ -15,7 +15,7 @@ What's the REST API client?
 */ 
 
 import axios from 'axios';
-import { ADD_POST, GET_POSTS } from "../actions/types";
+import { ADD_POST, DELETE_POST, GET_POSTS, GET_POST_BY_ID } from "../actions/types";
 
 const POSTS_API_URL = 'https://jsonplaceholder.typicode.com/posts';
 
@@ -71,3 +71,58 @@ export const getPostList = () => {
   }
 } 
 
+// Get Blog Post Details
+export const getPostById = (id) => {
+
+  console.log(id);
+
+  return (dispatch) => {  
+    // dispatch method should be here -- so that we can dispatch an action with type and res/err
+
+    return axios.get(POSTS_API_URL+ '/' + id)
+      .then( (res) => { // upon success
+        console.log(res);
+        // this is ideal place for us to dispatch an action with type and successful res as payload    
+        dispatch( {
+          type: GET_POST_BY_ID,
+          payload: res.data 
+        });
+      })
+      .catch( (err) => { // in case of error 
+        console.log(err);
+        // this is ideal place for us to dispatch an action with type and error res as payload
+      })
+      .finally( () => { // be it success or error -- this would be called at last
+        console.log('It is over');
+      });
+  }
+
+}
+
+// Delete Post 
+export const deletePost = (id) => {
+
+  console.log(id);
+
+  return (dispatch) => {  
+    // dispatch method should be here -- so that we can dispatch an action with type and res/err
+
+    return axios.delete(POSTS_API_URL+ '/' + id)
+      .then( (res) => { // upon success
+        console.log(res);
+        // this is ideal place for us to dispatch an action with type and successful res as payload    
+        dispatch( {
+          type: DELETE_POST,
+          payload: res.data
+        });
+      })
+      .catch( (err) => { // in case of error 
+        console.log(err);
+        // this is ideal place for us to dispatch an action with type and error res as payload
+      })
+      .finally( () => { // be it success or error -- this would be called at last
+        console.log('It is over');
+      });
+  }
+
+}
