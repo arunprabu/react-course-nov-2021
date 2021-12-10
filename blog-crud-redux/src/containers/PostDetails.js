@@ -25,7 +25,7 @@ class PostDetails extends Component {
   componentDidMount(){
     // Let's hit the service method to get one post details
     // Read URL Param in React
-    // console.log(this.props.params);
+    console.log(this.props.postId);
 
     this.props.onGetPostById(this.props.postId); // TODO for Arun - Fixed
   }
@@ -120,7 +120,7 @@ class PostDetails extends Component {
 }
 
 const mapStateToProps = (state, props) => { 
-  console.log(state.postList); 
+  console.log(state.posts); 
   console.log(props); // props would come with params, navigation, location from HOC
   return {
     // syntax 

@@ -1,0 +1,92 @@
+A new concept was introduced in React 16.8 - Hooks. 
+They let you use state and other React features without writing a class.
+Many of the features available to classes - such as lifecycle methods and states - 
+were not available to functional components. 
+The hooks introduced in react adds all that functionality and more.
+
+Life Cycle Hooks and React Hooks are not same. 
+
+This feature has loads of cools things to even replace redux .
+In this example, let's build a few things just by using hooks, 
+a potential alternative to redux.
+
+Hooks enable a functional component to have state in it.
+This is also called as Hook state. 
+
+Example: 
+  within a fn comp, 
+
+  import {useState } from 'react';
+
+  //this is a data in a variable.. not a state.
+  const myProfile = {
+    name: 'Arun',
+    city: 'Chennai'
+  }
+
+  // to have state inside fn comp, we can use useState() . 
+  // this will take in data and return getter and setter in an array. 
+  // We can do array destructuring to capture both.
+  const [profile, setProfile] = useState(myProfile);
+
+  const [age, setAge] = useState(20); // valid -- can create multiple
+
+  // then, we can log 
+  console.log(profile);
+
+  const updateProfile = () => {
+    setProfile({
+      name: 'VJ',
+      city: 'Chennai'
+    });
+    console.log(profile);
+  }
+
+  And have a button in JSX to call updateProfile method.
+    <button type='button' onClick={updateProfile}>Update Profile</button>
+
+  
+===
+
+Rules of Hooks
+---------------
+Hooks are JavaScript functions, but they impose two additional rules:
+
+Only call Hooks at the top level. 
+Don’t call Hooks inside loops, conditions, or nested functions.
+Only call Hooks from React functional components. 
+Don’t call Hooks from regular JavaScript functions. 
+(There is just one other valid place to call Hooks — your own custom Hooks.)
+
+=======================
+
+useState() Hook 
+---
+
+useEffect() - Hook 
+  is what componentDidMount and componentDidUpdate to class comp 
+  will get executed after render cycle 
+  useEffect( () => {
+    console.log('test');
+  })
+
+
+
+useCallback()
+Hook prevents the child component rendering if the dependency is not changed at all 
+For more refer: https://kentcdodds.com/blog/usememo-and-usecallback
+Important one for performance optimization
+
+---
+useContext()
+Let's us share data across components 
+
+Step 1: create context with any data or even null inside 
+Refer: PageContext.js 
+
+Step 2: Provide the data to the list of components you want to share 
+Check App.js 
+
+Step 3: Using <PageContext.Provider> to share the data across the few components 
+
+Step 4: Consume it in both Home.js and About.js 

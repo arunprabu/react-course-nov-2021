@@ -1,0 +1,207 @@
+JEST Tutorial
+---
+npm i @testing-library/react react-test-render 
+
+in your comp, in an element add an attribute data-testid='abc123'
+<div data-testid='abc123'>
+  wow 
+</div>
+
+add a separete css file for the comp 
+
+then, add comp.test.js in it..
+--
+import react and react-dom and also the comp we are going to test 
+
+write the test case and then 
+
+npm test
+
+
+
+
+Jest Tutorial
+====
+Explain App.test.js
+
+Explain About.test.js 
+
+Explain Company.test.ts
+
+----
+
+=====
+
+have jsconfig.js
+---
+
+{
+  "typeAcquisition": {
+      "include": [
+          "jest"
+      ]
+  }
+}
+
+=====
+
+App.js
+----
+add a h1 tag inside 
+<h1>React App with Hooks | Demo | learn react </h1>
+
+App.test.js
+------
+
+import React from 'react';
+import { render } from '@testing-library/react';
+import App from './App';
+
+// tests specs 
+test('renders learn react link', () => {
+
+  const { getByText } = render(<App />);
+  const linkElement = getByText(/React App with Hooks/i);
+  expect(linkElement).toBeInTheDocument();
+});
+
+test('app is available', () => {
+  expect(App).toBeTruthy();
+});
+
+
+=============
+
+About.js 
+---
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { PageContext } from '../../PageContext';
+import Company from './Company/Company';
+
+const About = () => {
+ 
+  
+  return(
+    <div>
+      <h1>About</h1>
+    </div>
+    
+  )
+}
+
+export const add = (a, b) =>{
+  return a +b ;
+}
+
+export default About;
+
+About.test.js 
+---
+import About, { add } from './About';
+
+test('should add two numbers', () => {
+  expect(add(10, 20)).toEqual(30);
+})
+
+it('should be available within the app', () => {
+  expect(About).toBeDefined();
+});
+
+
+======
+
+Company.js 
+----
+import React, { useState } from 'react';
+import './Company.css';
+
+const Company = (props) => {
+  
+  const [favCompany, setFavCompany] = useState('');
+
+  const updateCompany = (e) => {
+    setFavCompany(e.target.value)
+  }
+
+  return(
+    <div>
+      <p>Welcome to My Company's Official Webpage!!!</p>
+      <div data-testid='companyEl' className='redText'>{props.companyName}</div>
+      {/* adding test case to find the following element by placeholder */}
+      <input type='text' placeholder="company"/> 
+      <p>This is amazing!</p>
+      <br/>
+      <br/>
+      <input type='text' 
+        placeholder='Fav Company' 
+        value={favCompany}
+        onChange={updateCompany}/>
+    </div>
+  )
+}
+export default Company;
+
+
+====
+Company.test.js 
+----
+import React from 'react'; // needed
+import ReactDOM from 'react-dom'; //needed
+import Company from './Company';
+import { render, cleanup, fireEvent } from '@testing-library/react'; // from react testing lib 
+import renderer from 'react-test-renderer';
+
+afterEach(cleanup); // we can cleanup the tests using after each
+
+// group of related tests -- test cases
+describe('company component', () => {
+
+  it('renders the company comp properly', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(<Company/>, div);
+  });
+
+  it('should display the prop correctly', () => {
+    // take the element to put under test
+    const { getByTestId } = render( <Company companyName='Facebook'></Company>);
+    // fetching the element by companyEl; // refer Company.js 
+    // checking if props are received correctly
+    expect(getByTestId('companyEl')).toHaveTextContent('Facebook');// companyEl is the test id of the element
+  });
+
+  it('should have the right placeholder in input', () => {
+    const { queryByPlaceholderText } = render(<Company />);
+
+    //if the placeholder is not matching, it will fail
+    expect(queryByPlaceholderText('company')).toBeTruthy();
+  });
+
+  //checking whether the comp has right text
+  it('should have official webpage text', () => {
+    const { getByText } = render(<Company />);
+    const linkElement = getByText('Welcome to My Company\'s Official Webpage!');
+    expect(linkElement).toBeInTheDocument();
+  });
+
+  //now let's check if the input element works well with onChange event
+  it('should update onChange event in Fav company input', () => {
+    // taking the comp to put under test
+    const { queryByPlaceholderText} = render(<Company />);
+    // finding the element with a placeholder
+    const favCompanyInput = queryByPlaceholderText('Fav Company');
+    // now checking if onchange is working well or not
+    //mock firing change event with the value 
+    fireEvent.change(favCompanyInput, {target: {value: 'test'}});
+    // finally checking if the input element is showing the right update
+    expect(favCompanyInput.value).toBe('test');
+  });
+
+  //finally let's focus on snapshot testing
+  it('should have right company comp snapshot', () => {
+    const tree = renderer.create(<Company name='Facebook'></Company>).toJSON();
+    console.log(tree);
+    expect(tree).toMatchSnapshot();
+  });
+  
+});
